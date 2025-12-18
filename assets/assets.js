@@ -10,6 +10,7 @@ import firebase from './firebase.png';
 import figma from './figma.png';
 import git from './git.png';
 import mongodb from './mongodb.png';
+import logo_color from './logo_color.png'
 import right_arrow_white from './right-arrow-white.png';
 import logo from './logo.png';
 import logo_dark from './logo_dark.png';
@@ -27,6 +28,7 @@ import menu_black from './menu-black.png';
 import menu_white from './menu-white.png';
 import close_black from './close-black.png';
 import close_white from './close-white.png';
+import m_logo from './m_logo.png'
 import web_icon from './web-icon.png';
 import mobile_icon from './mobile-icon.png';
 import ui_icon from './ui-icon.png';
@@ -60,6 +62,8 @@ export const assets = {
     firebase,
     figma,
     git,
+    m_logo,
+    logo_color,
     mongodb,
     right_arrow_white,
     logo,

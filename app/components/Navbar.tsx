@@ -2,73 +2,82 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { assets } from '@/assets/assets'
-import Recat, {useRef} from 'react'
 
 function Navbar() {
-    const [isScroll,setIsScroll]=useState(false)
-    const sideMenuRef=useRef(null);
-    const openMenu = () => {
-        if (sideMenuRef.current) {
-            (sideMenuRef.current as HTMLElement).style.transform = 'translate(-16rem)';
-        }
-    }
-    const closeMenu = () => {
-        if (sideMenuRef.current) {
-            (sideMenuRef.current as HTMLElement).style.transform = 'translate(16rem)';
-        }
-    }
-    useEffect(()=>{
-        window.addEventListener('scroll',()=>{
-            if(scrollY > 50){
-                setIsScroll(true)
 
-            }
-            else{
-                setIsScroll(false)
+  const [isScroll, setIsScroll] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-            }
-        })
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setIsScroll(scrollY > 50)
+    })
+  }, [])
 
-    },[])
   return (
     <>
-    <div className='fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%]'>
-        <Image src={assets.header_bg_color} alt='' className='w-full'/>
-    </div>
-    <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 ${isScroll ? "bh-white bg-opacity-50 backdrop-blur-lg shadow-sm":""}`}>
+      {/* NAVBAR */}
+      <nav className={`
+        w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 
+        flex items-center justify-between z-50 transition-all duration-300
+        ${isScroll
+          ? "bg-gray-900/60 backdrop-blur-xl border-b border-gray-700/50"
+          : "bg-transparent"
+        }
+      `}>
+
+        {/* LOGO */}
         <a href="#top">
-            <Image src={assets.logo_m} alt="Logo" className='w-28 cursor-pointer mr-14' />
+          <Image src={assets.m_logo} alt="Logo" className="w-28 cursor-pointer mr-14" />
         </a>
-        <ul className={`hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 ${isScroll ? "":" bg-white shadow-sm bg-opacity-50"}`}>
-            <li><a className='font-Ovo' href="#top">Home</a></li>
-            <li><a className='font-Ovo' href="#about">About me</a></li>
-            <li><a className='font-Ovo' href="#services">Services</a></li>
-            <li><a className='font-Ovo' href="#work">My Work</a></li>
-            <li><a className='font-Ovo' href="#contact">Contact me</a></li>
 
+        {/* DESKTOP MENU */}
+        <ul className="
+          hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3
+          bg-gray-800/60 backdrop-blur-xl border border-gray-700/50
+          text-gray-200 shadow-lg
+        ">
+          <li><a className="hover:text-blue-400 transition" href="#top">Home</a></li>
+          <li><a className="hover:text-blue-400 transition" href="#about">About me</a></li>
+          <li><a className="hover:text-blue-400 transition" href="#services">Services</a></li>
+          <li><a className="hover:text-blue-400 transition" href="#work">My Work</a></li>
+          <li><a className="hover:text-blue-400 transition" href="#contact">Contact me</a></li>
         </ul>
-        <div className='flex items-center gap-4 ' >
-            <button>
-                <Image src={assets.moon_icon} alt="" className='w-6' />
-            </button>
-            <a  href="#contact" className='hidden lg:flex items-center gap-3 px-10 py-2.5 border border-gray-500 rounded-full ml-4 hover:bg-blue-400'>Contact <Image src={assets.arrow_icon} alt="contact-logo" className='w-3' /></a>
-            <button className='block md:hidden ml-3 hover:bg-blue-400'onClick={openMenu}  >
-                 <Image src={assets.menu_black} alt="" className='w-6' />
-            </button>
+
+        {/* MOBILE MENU BUTTON */}
+        <button 
+          className="block md:hidden ml-3 hover:bg-blue-500/30 p-2 rounded-lg transition"
+          onClick={() => setIsMenuOpen(true)}
+        >
+          <Image src={assets.menu_black} alt="" className="w-6 invert" />
+        </button>
+      </nav>
+
+      {/* MOBILE MENU PANEL */}
+      <ul className={`
+        fixed top-0 right-0 bottom-0 w-64 h-screen z-50
+        bg-gray-900/90 backdrop-blur-xl border-l border-gray-700/50
+        flex flex-col gap-6 py-20 px-10 text-gray-200
+        transition-transform duration-500
+        md:hidden
+        ${isMenuOpen ? "translate-x-0" : "translate-x-full"}
+      `}>
+        
+        {/* CLOSE BUTTON */}
+        <div 
+          className="absolute right-6 top-6 cursor-pointer"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <Image src={assets.close_black} alt='' className="w-5 invert" />
         </div>
-        {/*-------mobile menu---------- */}
-        <ul ref={sideMenuRef} className='flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-rose-50 transition duration-500'>
-            <div className='absolute right-6 top-6' onClick={closeMenu} >
-                <Image src={assets.close_black} alt='' className='w-5 cursor-pointer' />
-            </div>
-            <li><a className='font-Ovo' onClick={closeMenu}  href="#top">Home</a></li>
-            <li><a className='font-Ovo'onClick={closeMenu}  href="#about">About me</a></li>
-            <li><a className='font-Ovo'onClick={closeMenu}  href="#services">Services</a></li>
-            <li><a className='font-Ovo' onClick={closeMenu}  href="#work">My Work</a></li>
-            <li><a className='font-Ovo'onClick={closeMenu}  href="#contact">Contact me</a></li>
 
-        </ul>
-    </nav>
+        <li><a onClick={() => setIsMenuOpen(false)} href="#top" className='hover:text-blue-400'>Home</a></li>
+        <li><a onClick={() => setIsMenuOpen(false)} href="#about" className='hover:text-blue-400'>About me</a></li>
+        <li><a onClick={() => setIsMenuOpen(false)} href="#services" className='hover:text-blue-400'>Services</a></li>
+        <li><a onClick={() => setIsMenuOpen(false)} href="#work" className='hover:text-blue-400'>My Work</a></li>
+        <li><a onClick={() => setIsMenuOpen(false)} href="#contact" className='hover:text-blue-400'>Contact me</a></li>
+
+      </ul>
     </>
   )
 }
